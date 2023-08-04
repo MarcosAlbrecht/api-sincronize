@@ -146,7 +146,7 @@ const io = socketIO(server, {
     })
   });
 
-netServer.listen(3001, () => {
+netServer.listen(3005, () => {
     console.log(`Servidor de http está ouvindo na porta 3001`);
 });
 
