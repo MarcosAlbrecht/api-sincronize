@@ -43,7 +43,7 @@ const io = socketIO(server, {
       
       // Convertendo os bytes da mensagem em um Buffer
       const mensagemBuffer = Buffer.from(mensagemBytes);
-      netClient.write(mensagemBuffer);   
+      //netClient.write(mensagemBuffer);   
   
       netClient.on('data', (data) => {
       const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
