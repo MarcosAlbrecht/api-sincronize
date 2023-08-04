@@ -116,6 +116,8 @@ const io = socketIO(server, {
       if (clienteCorrespondente) {
         console.log(`Dados recebidos do cliente com ID ${clienteCorrespondente.id}:`, data.toString().trim());  
       }
+
+      console.log(`Dados recebidos do cliente:`, data.toString().trim());
       
       
   
