@@ -36,7 +36,9 @@ const io = socketIO(server, {
   
     //busca informações do empregador no relógio
     
-      const numFabricacao = "02 0F 00 30 31 2B 52 43 2B 30 30 2B 4E 52 5F 46 41 42 32 03";
+      //const numFabricacao = "02 0F 00 30 31 2B 52 43 2B 30 30 2B 4E 52 5F 46 41 42 32 03";
+      const numFabricacao = "02 0F 00 30 30 2b 52 43 2b 30 30 30 2b 4e 52 5f 52 45 50 42 32 03";
+      
       const mensagemBytes = numFabricacao.split(' ').map(hex => parseInt(hex, 16));
       
       // Convertendo os bytes da mensagem em um Buffer
