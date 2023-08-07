@@ -36,14 +36,14 @@ const io = socketIO(server, {
   
     //busca informações do empregador no relógio
     
-      //const numFabricacao = "02 0F 00 30 31 2B 52 43 2B 30 30 2B 4E 52 5F 46 41 42 32 03";
-      const numFabricacao = "02 0F 00 30 30 2b 52 43 2b 30 30 30 2b 4c 4f 47 49 4e 5b 74 65 73 74 65 20 66 61 62 72 69 63 61 5d 53 45 4e 48 41 5f 4d 45 4e 55 5b 31 31 31 31 31 31 2b 4e 52 5f 52 45 50 42 32 03";
+      const numFabricacao = "02 0F 00 30 31 2B 52 43 2B 30 30 2B 4E 52 5F 46 41 42 32 03";
+      //const numFabricacao = "02 0F 00 30 30 2b 52 43 2b 30 30 30 2b 4c 4f 47 49 4e 5b 74 65 73 74 65 20 66 61 62 72 69 63 61 5d 53 45 4e 48 41 5f 4d 45 4e 55 5b 31 31 31 31 31 31 2b 4e 52 5f 52 45 50 42 32 03";
       
       const mensagemBytes = numFabricacao.split(' ').map(hex => parseInt(hex, 16));
       
       // Convertendo os bytes da mensagem em um Buffer
       const mensagemBuffer = Buffer.from(mensagemBytes);
-      //netClient.write(mensagemBuffer);   
+      netClient.write(mensagemBuffer);   
   
       netClient.on('data', (data) => {
       const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
