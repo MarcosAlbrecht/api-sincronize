@@ -117,7 +117,7 @@ const io = socketIO(server, {
 
       if (data.toString().includes("01+RC+009")) {
         console.log("Relógio prisma conectou")
-        netClient.destroy()
+        //netClient.destroy()
       }
       
       // Aqui você pode fazer qualquer manipulação ou processamento necessário com os dados recebidos do cliente
