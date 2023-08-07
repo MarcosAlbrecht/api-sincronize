@@ -116,7 +116,7 @@ const io = socketIO(server, {
       }
 
       if (data.toString().includes("01+RC+009")) {
-        Console.log("Relógio prisma conectou")
+        console.log("Relógio prisma conectou")
         netClient.destroy()
       }
       
