@@ -56,7 +56,7 @@ const io = socketIO(server, {
 
       // Encontra a posição do "["      
 
-      if(data.toString().includes("01+RC+000+NR_REP")){
+      if(data.toString().includes("01+RC+000+NR_FAB")){
         const dadosRecebidos = data.toString();
         const posicaoAberturaColchete = dadosRecebidos.indexOf("[");
         const valorExtraido = dadosRecebidos.substring(posicaoAberturaColchete + 1, posicaoAberturaColchete + 1 + 17);
