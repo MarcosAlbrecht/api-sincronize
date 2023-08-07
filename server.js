@@ -125,16 +125,18 @@ const io = socketIO(server, {
         
           const uuidV4 = uuidv4();
           const porta = netClient.localPort;
-          const enderecoCliente = netClient.remoteAddress;
+          const enderecoCliente = netClient.localAddress;
           const cliente = {
             id: uuidV4,
             netClient: netClient,
             socketIo: null,
-            ip: ip,
+            ip: enderecoCliente,
             porta: porta,
             cnpj: '10.786.517/0001-01',
             num_fab: valorExtraido,
           }
+
+          clientesConectados[uuidV4] = cliente;
         }else{
           console.log("Relógio prisma ja está na lista", clienteCorrespondente)
         }
