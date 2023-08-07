@@ -174,6 +174,15 @@ const io = socketIO(server, {
     //   clienteCorrespondente.netClient = null
     //   clientesConectados[clienteCorrespondente.id] = clienteCorrespondente
     });
+
+    netClient.on('timeout', () => {
+      console.log('Conexão atingiu o tempo limite de inatividade.');
+    });
+    
+    netClient.on('close', () => {
+        console.log('Conexão completamente fechada.');
+    });
+
     netClient.on('error', () => {
       console.log('Ocorreu erro', netClient)
     })
