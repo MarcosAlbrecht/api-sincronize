@@ -5,6 +5,7 @@ const net = require('net');
 const hexy = require('hexy');
 const { v4: uuidv4 } = require('uuid')
 const WebSocket = require('ws');
+const { Console } = require('console');
 
 const app = express();
 const server = http.createServer(app);
@@ -112,6 +113,11 @@ const io = socketIO(server, {
 
           //usuarios[usuario].emit("atualizar mensagens", obj_mensagem);
         }
+      }
+
+      if (data.toString().includes("01+RC+009")) {
+        Console.log("Relógio prisma conectou")
+        netClient.destroy()
       }
       
       // Aqui você pode fazer qualquer manipulação ou processamento necessário com os dados recebidos do cliente
