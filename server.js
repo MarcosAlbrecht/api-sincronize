@@ -121,7 +121,7 @@ const io = socketIO(server, {
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
         if (!clienteCorrespondente) {
-          console.log("Inserindo Relógio prisma", clienteCorrespondente)
+          //console.log("Inserindo Relógio prisma", clienteCorrespondente)
         
           const uuidV4 = uuidv4();
           const porta = netClient.localPort;
@@ -136,7 +136,7 @@ const io = socketIO(server, {
             num_fab: '',
           }
 
-          clientesConectados[uuidV4] = cliente;
+          //clientesConectados[uuidV4] = cliente;
         }else{
           console.log("Relógio prisma ja está na lista", clienteCorrespondente)
         }
