@@ -117,6 +117,27 @@ const io = socketIO(server, {
 
       if (data.toString().includes("01+RC+009")) {
         console.log("Relógio prisma conectou")
+
+        const clienteCorrespondente = await Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+
+        if (!clienteCorrespondente) {
+          console.log("Inserindo Relógio prisma", clienteCorrespondente)
+        
+          const uuidV4 = uuidv4();
+          const porta = netClient.localPort;
+          const enderecoCliente = netClient.remoteAddress;
+          const cliente = {
+            id: uuidV4,
+            netClient: netClient,
+            socketIo: null,
+            ip: ip,
+            porta: porta,
+            cnpj: '10.786.517/0001-01',
+            num_fab: valorExtraido,
+          }
+        }else{
+          console.log("Relógio prisma ja está na lista", clienteCorrespondente)
+        }
         //netClient.destroy()
       }
       
