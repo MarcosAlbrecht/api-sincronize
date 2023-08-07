@@ -151,7 +151,7 @@ const io = socketIO(server, {
   });
 
 netServer.listen(3005, () => {
-    console.log(`Servidor de http está ouvindo na porta 3001`);
+    console.log(`Servidor de http está ouvindo na porta 3005`);
 });
 
 const HOST = '10.0.1.101';
@@ -267,7 +267,7 @@ socket.on("disconnect", function(){
 });
 
 server.listen(3010, () => {
-  console.log('Servidor Socket.io está em execução na porta 3005');
+  console.log('Servidor Socket.io está em execução na porta 3010');
 });
 
 function pegarDataAtual(){
