@@ -46,8 +46,8 @@ const io = socketIO(server, {
       const mensagemBuffer = Buffer.from(mensagemBytes);
       netClient.write(mensagemBuffer);   
   
-      netClient.on('data', async (data) => {
-      const clienteCorrespondente = await Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+      netClient.on('data', (data) => {
+      const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
       if (!clienteCorrespondente) {
         // Cliente não encontrado, talvez ele tenha sido desconectado ou ocorreu algum erro.
@@ -63,7 +63,7 @@ const io = socketIO(server, {
         const valorExtraido = dadosRecebidos.substring(posicaoAberturaColchete + 1, posicaoAberturaColchete + 1 + 17);
         console.log('num fabricacao relogio tratado', valorExtraido)
 
-        const clientNumFab = await Object.values(clientesConectados).find(cliente => cliente.num_fab === valorExtraido);
+        const clientNumFab = Object.values(clientesConectados).find(cliente => cliente.num_fab === valorExtraido);
 
         
         if (!clientNumFab) {
@@ -109,7 +109,7 @@ const io = socketIO(server, {
           mensagem_enviada = "[ " + pegarDataAtual() + " ] - Evento Online: " + data.toString();
           var obj_mensagem = {msg: mensagem_enviada, tipo: 'privado'};
 
-          await cliente.socketIo.emit('atualizar mensagens', obj_mensagem)
+          cliente.socketIo.emit('atualizar mensagens', obj_mensagem)
 
           //usuarios[usuario].emit("atualizar mensagens", obj_mensagem);
         }
@@ -118,7 +118,7 @@ const io = socketIO(server, {
       if (data.toString().includes("01+RC+009")) {
         console.log("Relógio prisma conectou")
 
-        const clienteCorrespondente = await Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+        const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
         if (!clienteCorrespondente) {
           console.log("Inserindo Relógio prisma", clienteCorrespondente)
