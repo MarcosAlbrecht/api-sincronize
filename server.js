@@ -266,7 +266,7 @@ socket.on("disconnect", function(){
   });
 });
 
-server.listen(3005, () => {
+server.listen(3010, () => {
   console.log('Servidor Socket.io está em execução na porta 3005');
 });
 
