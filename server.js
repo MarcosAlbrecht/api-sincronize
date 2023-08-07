@@ -136,7 +136,7 @@ const io = socketIO(server, {
         clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
         console.log(`${dataAtual} Cliente com ID ${clienteCorrespondente.id} desconectado`);
       } else {
-        console.log("Cliente não encontrado na lista de clientes conectados.", netClient);
+        console.log("Cliente não encontrado na lista de clientes conectados.");
       }
           
     // const dataString = dataAtual.toISOString().replace('T', ' ').slice(0, 19);
