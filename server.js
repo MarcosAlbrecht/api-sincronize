@@ -133,7 +133,7 @@ const io = socketIO(server, {
             ip: enderecoCliente,
             porta: porta,
             cnpj: '10.786.517/0001-01',
-            num_fab: valorExtraido,
+            num_fab: '',
           }
 
           clientesConectados[uuidV4] = cliente;
