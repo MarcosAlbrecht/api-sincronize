@@ -118,8 +118,8 @@ var io = require('socket.io')(http);
       }
 
       if (data.toString().includes("01+RC+009")) {
-        const dataAtual = new Date();
-        console.log(`${dataAtual} Relógio prisma entrou no evento on("data") `)
+        //const dataAtual = new Date();
+        console.log(`${pegarDataAtual()} Relógio prisma entrou no evento on("data") `)
 
         //const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
