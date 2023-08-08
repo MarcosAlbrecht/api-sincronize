@@ -1,20 +1,19 @@
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
+var express = require('express')();
+//const http = require('http');
+//const socketIO = require('socket.io');
 const net = require('net');
-const hexy = require('hexy');
 const { v4: uuidv4 } = require('uuid')
-const WebSocket = require('ws');
-const { Console } = require('console');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIO(server, {
-    // cors: {
-    //   origin: '*',
-    //   credentials: true
-    // }
-  });
+// const app = express();
+// const server = http.createServer(app);
+// const io = socketIO(server, {
+//     cors: {
+//       origin: '*',
+//       credentials: true
+//     }
+//   });
+var http = require('http').Server(express);
+var io = require('socket.io')(http);
 
   // const netClient = net.createConnection({port: 3000, host: '10.0.1.113'},() => {
   //   console.log('Conexão estabelecida com o servidor do relogio')
@@ -193,8 +192,8 @@ netServer.listen(3005, () => {
     console.log(`Servidor de http está ouvindo na porta 3005`);
 });
 
-const HOST = '10.0.1.101';
-const PORT = 3001;
+//const HOST = '10.0.1.101';
+//const PORT = 3001;
 
 
 var clientesConectados = [];
@@ -306,8 +305,11 @@ socket.on("disconnect", function(){
   });
 });
 
-server.listen(3010, () => {
-  console.log('Servidor Socket.io está em execução na porta 3010');
+// server.listen(3010, () => {
+//   console.log('Servidor Socket.io está em execução na porta 3010');
+// });
+http.listen(3010, function(){
+  console.log('Socket.io listening on: 3010');
 });
 
 function pegarDataAtual(){
