@@ -203,6 +203,7 @@ var ultimas_mensagens = [];
 
 io.on('connection', (socket) => {
   console.log('Novo cliente conectado: ',socket.id);
+  socket.handshake.headers['Access-Control-Allow-Credentials'] = true;
 
   socket.on("entrar", function(apelido, callback){
     if(!(apelido in usuarios)){
