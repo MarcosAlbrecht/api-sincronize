@@ -44,7 +44,7 @@ var io = require('socket.io')(http);
       
       // Convertendo os bytes da mensagem em um Buffer
       const mensagemBuffer = Buffer.from(mensagemBytes);
-      netClient.write(mensagemBuffer);   
+      //netClient.write(mensagemBuffer);   
   
       netClient.on('data', (data) => {
       const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
@@ -119,7 +119,7 @@ var io = require('socket.io')(http);
 
       if (data.toString().includes("01+RC+009")) {
         //const dataAtual = new Date();
-        console.log(`${pegarDataAtual()} Relógio prisma entrou no evento on("data") `)
+        console.log(`${pegarDataAtual()} Relógio prisma entrou no evento on("data") ${data.toString()}`)
 
         //const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
