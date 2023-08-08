@@ -51,7 +51,7 @@ var io = require('socket.io')(http);
 
       if (!clienteCorrespondente) {
         // Cliente não encontrado, talvez ele tenha sido desconectado ou ocorreu algum erro.
-        console.log('Cliente não encontrado!');
+        //console.log('Cliente não encontrado!');
         //return;
       }
 
@@ -111,36 +111,40 @@ var io = require('socket.io')(http);
 
           cliente.socketIo.emit('atualizar mensagens', obj_mensagem)
 
+          
+
           //usuarios[usuario].emit("atualizar mensagens", obj_mensagem);
         }
       }
 
       if (data.toString().includes("01+RC+009")) {
-        console.log("Relógio prisma conectou")
+        const dataAtual = new Date();
+        console.log(`${dataAtual} Relógio prisma entrou no evento on("data") `)
 
-        const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+        //const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-        if (!clienteCorrespondente) {
-          //console.log("Inserindo Relógio prisma", clienteCorrespondente)
+        // if (!clienteCorrespondente) {
+        //   //console.log("Inserindo Relógio prisma", clienteCorrespondente)
         
-          const uuidV4 = uuidv4();
-          const porta = netClient.localPort;
-          const enderecoCliente = netClient.localAddress;
-          const cliente = {
-            id: uuidV4,
-            netClient: netClient,
-            socketIo: null,
-            ip: enderecoCliente,
-            porta: porta,
-            cnpj: '10.786.517/0001-01',
-            num_fab: '',
-          }
+        //   const uuidV4 = uuidv4();
+        //   const porta = netClient.localPort;
+        //   const enderecoCliente = netClient.localAddress;
+        //   const cliente = {
+        //     id: uuidV4,
+        //     netClient: netClient,
+        //     socketIo: null,
+        //     ip: enderecoCliente,
+        //     porta: porta,
+        //     cnpj: '10.786.517/0001-01',
+        //     num_fab: '',
+        //   }
 
-          //clientesConectados[uuidV4] = cliente;
-        }else{
-          console.log("Relógio prisma ja está na lista", clienteCorrespondente)
-        }
+        //   //clientesConectados[uuidV4] = cliente;
+        // }else{
+        //   console.log("Relógio prisma ja está na lista", clienteCorrespondente)
+        // }
         //netClient.destroy()
+        return
       }
       
       // Aqui você pode fazer qualquer manipulação ou processamento necessário com os dados recebidos do cliente
