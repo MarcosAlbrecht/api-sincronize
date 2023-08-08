@@ -9,12 +9,12 @@ const { Console } = require('console');
 
 const app = express();
 const server = http.createServer(app);
-// const io = socketIO(server, {
-//     cors: {
-//       origin: '*',
-//       credentials: true
-//     }
-//   });
+const io = socketIO(server, {
+    // cors: {
+    //   origin: '*',
+    //   credentials: true
+    // }
+  });
 
   // const netClient = net.createConnection({port: 3000, host: '10.0.1.113'},() => {
   //   console.log('Conexão estabelecida com o servidor do relogio')
