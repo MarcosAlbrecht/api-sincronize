@@ -3,8 +3,7 @@ var express = require('express')();
 //const socketIO = require('socket.io');
 const net = require('net');
 const { v4: uuidv4 } = require('uuid')
-const { encodeBase64 } = require('base64-arraybuffer');
-const forge = require('node-forge');
+const NodeRSA = require('node-rsa');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -429,20 +428,9 @@ function MIMEBase64Encode(inputString) {
 }
 
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
-  const RSA_KEY_SIZE = 1024; // Assuming the RSA key size is 1024 bits
+  const key = new NodeRSA();
+  key.importKey({ n: s_Modulus, e: s_Exponent }, 'components-public'); // Import public key components
 
-  try {
-    const publicKey = forge.pki.setRsaPublicKey(
-      forge.util.decode64(s_Modulus),
-      forge.util.decode64(s_Exponent)
-    );
-
-    const encryptedBytes = publicKey.encrypt(forge.util.encodeUtf8(s_Plain));
-    const encryptedBase64 = forge.util.encode64(encryptedBytes);
-
-    return encryptedBase64;
-  } catch (error) {
-    console.error(error.message);
-    return '';
-  }
+  const encryptedBuffer = key.encrypt(s_Plain, 'base64'); // Encrypt the plaintext
+  return encryptedBuffer;
 }
