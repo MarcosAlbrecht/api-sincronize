@@ -200,7 +200,7 @@ var io = require('socket.io')(http);
         const _rPacoteHex = convertToHex(byteArray);
         console.log('resultado de convertToHex',_rPacoteHex);
 
-        const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
+        const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
       
         // Convertendo os bytes da mensagem em um Buffer
         const mensagemBuffer = Buffer.from(mensagemBytes);
