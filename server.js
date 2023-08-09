@@ -126,7 +126,7 @@ var io = require('socket.io')(http);
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
          if (!clienteCorrespondente) {
-          console.log("Inserindo Relógio prisma", clienteCorrespondente)
+          console.log("Inserindo Relógio prisma")
         
           const uuidV4 = uuidv4();
           const porta = netClient.localPort;
@@ -147,9 +147,13 @@ var io = require('socket.io')(http);
         //mandar string para autenticar
         //01+RA+00
         //02 08 00 30 31 2B 52 41 2B 30 30 1A 03
-
+        const autenticar = '02 08 00 30 31 2B 52 41 2B 30 30 1A 03'
+        const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
+      
+        // Convertendo os bytes da mensagem em um Buffer
+        const mensagemBuffer = Buffer.from(mensagemBytes);
         
-        netClient.write('02 08 00 30 31 2B 52 41 2B 30 30 1A 03')
+        netClient.write(mensagemBuffer)
         // }else{
         //   console.log("Relógio prisma ja está na lista", clienteCorrespondente)
         // }
