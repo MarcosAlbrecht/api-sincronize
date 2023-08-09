@@ -419,10 +419,9 @@ function generateKeyAES(keySize) {
 }
 
 function MIMEBase64Encode(inputString) {
-  // Assuming inputString is a regular string, if not, you might need to handle conversion
-  const buffer = new TextEncoder().encode(inputString);
-  const encodedData = encodeBase64(buffer);
-  
+  const buffer = Buffer.from(inputString, 'utf-8');
+  const encodedData = buffer.toString('base64');
+
   // Manually apply padding if needed
   const padding = '='.repeat((4 - (encodedData.length % 4)) % 4);
   
@@ -430,7 +429,7 @@ function MIMEBase64Encode(inputString) {
 }
 
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
-  const RSA_KEY_SIZE = 1024; // Assuming the RSA key size is 2048 bits
+  const RSA_KEY_SIZE = 1024; // Assuming the RSA key size is 1024 bits
 
   try {
     const publicKey = forge.pki.setRsaPublicKey(
