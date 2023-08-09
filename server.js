@@ -179,7 +179,7 @@ var io = require('socket.io')(http);
         //const _gModulus = inputString.substring(11, rPos);
         const _gModulus = match[1]
 
-        const _rPacoteString = inputString.substring(rPos + 1, rPos + 4);    
+        const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
         const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
 
