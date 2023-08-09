@@ -192,7 +192,7 @@ var io = require('socket.io')(http);
         const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); // You need to define the EncryptRSA function
 
         const finalOutput = `01+EA+00+${_rMensagem}`;
-        console.log(finalOutput);
+        console.log('Final Output: ', finalOutput);
 
         return
 
