@@ -500,7 +500,7 @@ function stringToBytes(pPackage) {
 
 function convertToHex(byteArray) {
   return byteArray.reduce((hexString, byte) => {
-    //const byteHex = byte.toString(16).padStart(2, '0');
-    return hexString + ' ';
+    const byteHex = byte.toString(16).padStart(2, '0');
+    return hexString + byteHex + ' ';
   }, '');
 }
