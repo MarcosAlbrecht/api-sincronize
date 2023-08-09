@@ -4,6 +4,7 @@ var express = require('express')();
 const net = require('net');
 const { v4: uuidv4 } = require('uuid')
 const NodeRSA = require('node-rsa');
+const forge = require('node-forge');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -428,9 +429,15 @@ function MIMEBase64Encode(inputString) {
 }
 
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
-  const key = new NodeRSA();
-  key.importKey({ n: s_Modulus, e: s_Exponent }, 'components-public'); // Import public key components
+  const publicKey = new NodeRSA();
+  publicKey.importKey(
+    {
+      n: Buffer.from(s_Modulus, 'base64'), // Decoded from base64
+      e: Buffer.from(s_Exponent, 'base64') // Decoded from base64
+    },
+    'components-public'
+  );
 
-  const encryptedBuffer = key.encrypt(s_Plain, 'base64'); // Encrypt the plaintext
+  const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
   return encryptedBuffer;
 }
