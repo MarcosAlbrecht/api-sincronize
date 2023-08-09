@@ -3,6 +3,7 @@ var express = require('express')();
 //const socketIO = require('socket.io');
 const net = require('net');
 const { v4: uuidv4 } = require('uuid')
+const ursa = require('ursa');
 const NodeRSA = require('node-rsa');
 
 // const app = express();
@@ -428,9 +429,8 @@ function MIMEBase64Encode(inputString) {
 }
 
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
-  const key = new NodeRSA();
-  key.importKey({ n: s_Modulus, e: s_Exponent }, 'components-public'); // Import public key components
-
-  const encryptedBuffer = key.encrypt(s_Plain, 'base64'); // Encrypt the plaintext
+  const publicKey = ursa.createPublicKey(Buffer.from(s_Modulus, 'base64'), Buffer.from(s_Exponent, 'base64'));
+  
+  const encryptedBuffer = publicKey.encrypt(s_Plain, 'utf8', 'base64', ursa.RSA_PKCS1_PADDING);
   return encryptedBuffer;
 }
