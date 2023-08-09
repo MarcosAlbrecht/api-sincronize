@@ -168,52 +168,52 @@ var io = require('socket.io')(http);
       if (data.toString().includes("01+RA+000+")) {
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-        const inputString = data.toString();
-        const regex = /01\+RA\+000\+(.*?)\]/;
-        const match = regex.exec(inputString);
+        // const inputString = data.toString();
+        // const regex = /01\+RA\+000\+(.*?)\]/;
+        // const match = regex.exec(inputString);
 
-        console.log('recebeu token adv R2: ',match[1])
-        //clienteCorrespondente.token_advr2 = match[1]
-        //clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
-        const rPos = inputString.indexOf(']');
-        //const _gModulus = inputString.substring(11, rPos);
-        const _gModulus = match[1]
+        // console.log('recebeu token adv R2: ',match[1])
+        // //clienteCorrespondente.token_advr2 = match[1]
+        // //clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
+        // const rPos = inputString.indexOf(']');
+        // //const _gModulus = inputString.substring(11, rPos);
+        // const _gModulus = match[1]
 
-        const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
+        // const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
-        const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+        // const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
 
-        console.log('_gExpoent: ',_gExpoent)
+        // console.log('_gExpoent: ',_gExpoent)
 
-        const _gKeyAES = generateKeyAES(16); // You need to define the GenerateKeyAES function
+        // const _gKeyAES = generateKeyAES(16);
 
-        const _gUsuario = 'teste fabrica';
-        const _gSenha = '111111';
+        // const _gUsuario = 'teste fabrica';
+        // const _gSenha = '111111';
 
-        const _rDados = `${1}]${_gUsuario}]${_gSenha}]${MIMEBase64Encode(_gKeyAES)}`;
+        // const _rDados = `${1}]${_gUsuario}]${_gSenha}]${MIMEBase64Encode(_gKeyAES)}`;
 
-        const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); // You need to define the EncryptRSA function
+        // const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); 
 
-        const finalOutput = `01+EA+00+${_rMensagem}`;
-        console.log('Final Output: ', finalOutput);
+        // const finalOutput = `01+EA+00+${_rMensagem}`;
+        // console.log('Final Output: ', finalOutput);
 
-        const byteArray = stringToBytes(finalOutput);
-        console.log('resultado de stringToBytes',byteArray);
+        // const byteArray = stringToBytes(finalOutput);
+        // console.log('resultado de stringToBytes',byteArray);
 
-        const _rPacoteHex = convertToHex(byteArray);
-        const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
-        console.log('resultado de convertToHex',_rPacoteHex);
+        // const _rPacoteHex = convertToHex(byteArray);
+        // const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
+        // console.log('resultado de convertToHex',_rPacoteHex);
 
-        const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
+        // const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
       
-        // Convertendo os bytes da mensagem em um Buffer
-        const mensagemBuffer = Buffer.from(mensagemBytes);
+        // // Convertendo os bytes da mensagem em um Buffer
+        // const mensagemBuffer = Buffer.from(mensagemBytes);
 
-        console.log('resultado de buffer',mensagemBuffer);
+        // console.log('resultado de buffer',mensagemBuffer);
 
-        netClient.write(mensagemBuffer);
+        // netClient.write(mensagemBuffer);
 
-        return
+        // return
 
       }
       
