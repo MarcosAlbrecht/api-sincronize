@@ -200,14 +200,16 @@ var io = require('socket.io')(http);
         const byteArray = stringToBytes(finalOutput);
         console.log('resultado de stringToBytes',byteArray);
 
-        const _rPacoteHex = convertToHex(byteArray);
-        const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
-        console.log('resultado de convertToHex',_rHexa);
+        //const _rPacoteHex = convertToHex(byteArray);
+        
+        //console.log('resultado de convertToHex',_rHexa);
 
-        const mensagemBytes = _rHexa.split(' ').map(hex => parseInt(hex, 16));
+        const mensagemBytes = byteArray.split(' ').map(hex => parseInt(hex, 16));
+
+        const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${mensagemBytes} 03`
       
         // Convertendo os bytes da mensagem em um Buffer
-        console.log('mensagemBytes',_rHexa);
+        console.log('resultado de convertToHex',_rHexa);
         const mensagemBuffer = Buffer.from(mensagemBytes);
 
         console.log('resultado de buffer',_rPacoteHex);
@@ -504,14 +506,14 @@ function convertToHex(byteArray) {
   //   const byteHex = byte.toString(16).padStart(2, '0');
   //   return hexString + byteHex + ' ';
   // }, '');
-  const byteArr = [];
+  const byteArray = [];
   const hexPairs = hexString.split(' ');
 
   for (let i = 0; i < hexPairs.length; i++) {
     const hexByte = hexPairs[i];
     const byte = parseInt(hexByte, 16);
-    byteArr.push(byte);
+    byteArray.push(byte);
   }
 
-  return byteArr;
+  return byteArray;
 }
