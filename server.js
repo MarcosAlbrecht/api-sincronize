@@ -170,8 +170,8 @@ var io = require('socket.io')(http);
         const regex = /01\+RA\+000\+(.*?)\]/;
         const match = regex.exec(inputString);
 
-        console.log('recebeu token adv R2: ',match)
-        clienteCorrespondente.token_advr2 = match
+        console.log('recebeu token adv R2: ',match[1])
+        clienteCorrespondente.token_advr2 = match[1]
         clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
 
         return
