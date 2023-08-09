@@ -44,7 +44,7 @@ var io = require('socket.io')(http);
       
       // Convertendo os bytes da mensagem em um Buffer
       const mensagemBuffer = Buffer.from(mensagemBytes);
-      //netClient.write(mensagemBuffer);   
+      netClient.write(mensagemBuffer);   
   
       netClient.on('data', (data) => {
       const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
@@ -56,7 +56,7 @@ var io = require('socket.io')(http);
       }
 
       // Encontra a posição do "["      
-
+      //primme ponto
       if(data.toString().includes("01+RC+000+NR_FAB")) {
         const dadosRecebidos = data.toString();
         const posicaoAberturaColchete = dadosRecebidos.indexOf("[");
@@ -98,6 +98,7 @@ var io = require('socket.io')(http);
         }
       }
 
+      //primme ponto - evento online
       if (data.toString().includes("RO+000+EV")) {
         
         if (clienteCorrespondente && clienteCorrespondente.socketIo != null) {
@@ -117,34 +118,54 @@ var io = require('socket.io')(http);
         }
       }
 
+      //prisma ADV R2
       if (data.toString().includes("01+RC+009")) {
         //const dataAtual = new Date();
         console.log(`${pegarDataAtual()} Relógio prisma entrou no evento on("data") ${data.toString()}`)
 
-        //const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+        const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-        // if (!clienteCorrespondente) {
-        //   //console.log("Inserindo Relógio prisma", clienteCorrespondente)
+         if (!clienteCorrespondente) {
+          console.log("Inserindo Relógio prisma", clienteCorrespondente)
         
-        //   const uuidV4 = uuidv4();
-        //   const porta = netClient.localPort;
-        //   const enderecoCliente = netClient.localAddress;
-        //   const cliente = {
-        //     id: uuidV4,
-        //     netClient: netClient,
-        //     socketIo: null,
-        //     ip: enderecoCliente,
-        //     porta: porta,
-        //     cnpj: '10.786.517/0001-01',
-        //     num_fab: '',
-        //   }
+          const uuidV4 = uuidv4();
+          const porta = netClient.localPort;
+          const enderecoCliente = netClient.localAddress;
+          const cliente = {
+            id: uuidV4,
+            netClient: netClient,
+            socketIo: null,
+            ip: enderecoCliente,
+            porta: porta,
+            cnpj: '10.786.517/0001-01',
+            num_fab: '',
+            token_advr2: '',
+          }
 
-        //   //clientesConectados[uuidV4] = cliente;
+          clientesConectados[uuidV4] = cliente;
+        }
+        //mandar string para autenticar
+        //01+RA+00
+        //02 08 00 30 31 2B 52 41 2B 30 30 1A 03
+
+        
+        netClient.write('02 08 00 30 31 2B 52 41 2B 30 30 1A 03')
         // }else{
         //   console.log("Relógio prisma ja está na lista", clienteCorrespondente)
         // }
         //netClient.destroy()
         return
+      }
+
+      // ADV R2
+      //RETORNO DO PEDIDO DE AUTENTICAÇÃO COM TOKEN DE ACESSO
+      if (data.toString().includes("01+RA+000+")) {
+        const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+
+        console.log('recebeu token adv R2: ',data.toString())
+        clienteCorrespondente.token_advr2 = data.toString()
+        clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
+
       }
       
       // Aqui você pode fazer qualquer manipulação ou processamento necessário com os dados recebidos do cliente
