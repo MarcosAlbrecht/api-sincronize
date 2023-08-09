@@ -156,6 +156,7 @@ var io = require('socket.io')(http);
         const mensagemBuffer = Buffer.from(mensagemBytes);
         
         netClient.write(mensagemBuffer)
+        console.log('message buffer enviada: ',mensagemBuffer)
         // }else{
         //   console.log("Relógio prisma ja está na lista", clienteCorrespondente)
         // }
