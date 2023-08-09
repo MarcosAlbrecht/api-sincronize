@@ -169,18 +169,21 @@ var io = require('socket.io')(http);
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
         const inputString = data.toString();
-        //const regex = /01\+RA\+000\+(.*?)\]/;
-        //const match = regex.exec(inputString);
+        const regex = /01\+RA\+000\+(.*?)\]/;
+        const match = regex.exec(inputString);
 
-        console.log('recebeu token adv R2: ',inputString)
+        console.log('recebeu token adv R2: ',match[1])
         //clienteCorrespondente.token_advr2 = match[1]
         //clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
         const rPos = inputString.indexOf(']');
-        const _gModulus = inputString.substring(11, rPos);
+        //const _gModulus = inputString.substring(11, rPos);
+        const _gModulus = match[1]
 
-        const _rPacoteString = inputString.substring(rPos + 1);
+        const _rPacoteString = inputString.substring(rPos + 1);    
 
         const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+
+        console.log('_rPacoteString: ',_gExpoent)
 
         const _gKeyAES = generateKeyAES(16); // You need to define the GenerateKeyAES function
 
