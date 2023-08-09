@@ -202,14 +202,14 @@ var io = require('socket.io')(http);
 
         const _rPacoteHex = convertToHex(byteArray);
         const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
-        console.log('resultado de convertToHex',_rHexa);
+        console.log('resultado de convertToHex',_rPacoteHex);
 
-        //const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
+        const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
       
         // Convertendo os bytes da mensagem em um Buffer
         const mensagemBuffer = Buffer.from(mensagemBytes);
 
-        console.log('resultado de buffer',_rPacoteHex);
+        console.log('resultado de buffer',mensagemBuffer);
 
         netClient.write(mensagemBuffer);
 
@@ -499,18 +499,8 @@ function stringToBytes(pPackage) {
 }
 
 function convertToHex(byteArray) {
-  // return byteArray.reduce((hexString, byte) => {
-  //   const byteHex = byte.toString(16).padStart(2, '0');
-  //   return hexString + byteHex + ' ';
-  // }, '');
-  const byteArr = [];
-  const hexPairs = byteArray.split(' ');
-
-  for (let i = 0; i < hexPairs.length; i++) {
-    const hexByte = hexPairs[i];
-    const byte = parseInt(hexByte, 16);
-    byteArr.push(byte);
-  }
-
-  return byteArr;
+  return byteArray.reduce((hexString, byte) => {
+    //const byteHex = byte.toString(16).padStart(2, '0');
+    return hexString + ' ';
+  }, '');
 }
