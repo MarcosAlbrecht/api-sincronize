@@ -166,9 +166,15 @@ var io = require('socket.io')(http);
       if (data.toString().includes("01+RA+000+")) {
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-        console.log('recebeu token adv R2: ',data.toString())
-        clienteCorrespondente.token_advr2 = data.toString()
+        const inputString = data.toString();
+        const regex = /01\+RA\+000\+(.*?)\]/;
+        const match = regex.exec(inputString);
+
+        console.log('recebeu token adv R2: ',match)
+        clienteCorrespondente.token_advr2 = match
         clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
+
+        return
 
       }
       
