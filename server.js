@@ -3,6 +3,8 @@ var express = require('express')();
 //const socketIO = require('socket.io');
 const net = require('net');
 const { v4: uuidv4 } = require('uuid')
+const { encodeBase64 } = require('base64-arraybuffer');
+const forge = require('node-forge');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -167,12 +169,30 @@ var io = require('socket.io')(http);
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
         const inputString = data.toString();
-        const regex = /01\+RA\+000\+(.*?)\]/;
-        const match = regex.exec(inputString);
+        //const regex = /01\+RA\+000\+(.*?)\]/;
+        //const match = regex.exec(inputString);
 
-        console.log('recebeu token adv R2: ',match[1])
-        clienteCorrespondente.token_advr2 = match[1]
-        clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
+        console.log('recebeu token adv R2: ',inputString)
+        //clienteCorrespondente.token_advr2 = match[1]
+        //clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
+        const rPos = inputString.indexOf(']');
+        const _gModulus = inputString.substring(11, rPos);
+
+        const _rPacoteString = inputString.substring(rPos + 1);
+
+        const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+
+        const _gKeyAES = generateKeyAES(16); // You need to define the GenerateKeyAES function
+
+        const _gUsuario = 'teste fabrica';
+        const _gSenha = '111111';
+
+        const _rDados = `${1}]${_gUsuario}]${_gSenha}]${MIMEBase64Encode(_gKeyAES)}`;
+
+        const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); // You need to define the EncryptRSA function
+
+        const finalOutput = `01+EA+00+${_rMensagem}`;
+        console.log(finalOutput);
 
         return
 
@@ -376,4 +396,54 @@ function stringToHex(str) {
     hex += charCode.padStart(2, '0') + ' ';
   }
   return hex.trim();
+}
+
+function generateKeyAES(keySize) {
+  const i_KeySizeBits = keySize * 8;
+  let result = '';
+
+  if (i_KeySizeBits !== 128 && i_KeySizeBits !== 192 && i_KeySizeBits !== 256) {
+    throw new Error('Invalid AES key length');
+  }
+
+  while (keySize > 0) {
+    // Since you're using Randomize and RandomRange in Delphi,
+    // you can use the crypto module in Node.js to achieve similar functionality.
+    const randomDigit = Math.floor(Math.random() * 10); // Generates a random digit from 0 to 9
+    result += randomDigit.toString();
+
+    keySize--;
+  }
+
+  return result;
+}
+
+function MIMEBase64Encode(inputString) {
+  // Assuming inputString is a regular string, if not, you might need to handle conversion
+  const buffer = new TextEncoder().encode(inputString);
+  const encodedData = encodeBase64(buffer);
+  
+  // Manually apply padding if needed
+  const padding = '='.repeat((4 - (encodedData.length % 4)) % 4);
+  
+  return encodedData + padding;
+}
+
+function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
+  const RSA_KEY_SIZE = 1024; // Assuming the RSA key size is 2048 bits
+
+  try {
+    const publicKey = forge.pki.setRsaPublicKey(
+      forge.util.decode64(s_Modulus),
+      forge.util.decode64(s_Exponent)
+    );
+
+    const encryptedBytes = publicKey.encrypt(forge.util.encodeUtf8(s_Plain));
+    const encryptedBase64 = forge.util.encode64(encryptedBytes);
+
+    return encryptedBase64;
+  } catch (error) {
+    console.error(error.message);
+    return '';
+  }
 }
