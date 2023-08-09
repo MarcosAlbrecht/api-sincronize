@@ -125,27 +125,27 @@ var io = require('socket.io')(http);
         //const dataAtual = new Date();
         console.log(`${pegarDataAtual()} Relógio prisma entrou no evento on("data") ${data.toString()}`)
 
-        const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
+        // const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-         if (!clienteCorrespondente) {
-          console.log("Inserindo Relógio prisma")
+        //  if (!clienteCorrespondente) {
+        //   console.log("Inserindo Relógio prisma")
         
-          const uuidV4 = uuidv4();
-          const porta = netClient.localPort;
-          const enderecoCliente = netClient.localAddress;
-          const cliente = {
-            id: uuidV4,
-            netClient: netClient,
-            socketIo: null,
-            ip: enderecoCliente,
-            porta: porta,
-            cnpj: '10.786.517/0001-01',
-            num_fab: '',
-            token_advr2: '',
-          }
+        //   const uuidV4 = uuidv4();
+        //   const porta = netClient.localPort;
+        //   const enderecoCliente = netClient.localAddress;
+        //   const cliente = {
+        //     id: uuidV4,
+        //     netClient: netClient,
+        //     socketIo: null,
+        //     ip: enderecoCliente,
+        //     porta: porta,
+        //     cnpj: '10.786.517/0001-01',
+        //     num_fab: '',
+        //     token_advr2: '',
+        //   }
 
-          clientesConectados[uuidV4] = cliente;
-        }
+        //   clientesConectados[uuidV4] = cliente;
+        // }
         //mandar string para autenticar
         //01+RA+00
         //02 08 00 30 31 2B 52 41 2B 30 30 1A 03
