@@ -506,7 +506,7 @@ function convertToHex(byteArray) {
   //   const byteHex = byte.toString(16).padStart(2, '0');
   //   return hexString + byteHex + ' ';
   // }, '');
-  const byteArray = [];
+  //const byteArray = [];
   const hexPairs = hexString.split(' ');
 
   for (let i = 0; i < hexPairs.length; i++) {
