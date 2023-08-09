@@ -207,7 +207,7 @@ var io = require('socket.io')(http);
         const mensagemBytes = _rHexa.split(' ').map(hex => parseInt(hex, 16));
       
         // Convertendo os bytes da mensagem em um Buffer
-        console.log('mensagemBytes',mensagemBytes);
+        console.log('mensagemBytes',_rHexa);
         const mensagemBuffer = Buffer.from(mensagemBytes);
 
         console.log('resultado de buffer',_rPacoteHex);
@@ -504,14 +504,14 @@ function convertToHex(byteArray) {
   //   const byteHex = byte.toString(16).padStart(2, '0');
   //   return hexString + byteHex + ' ';
   // }, '');
-  const byteArray = [];
+  const byteArr = [];
   const hexPairs = hexString.split(' ');
 
   for (let i = 0; i < hexPairs.length; i++) {
     const hexByte = hexPairs[i];
     const byte = parseInt(hexByte, 16);
-    byteArray.push(byte);
+    byteArr.push(byte);
   }
 
-  return byteArray;
+  return byteArr;
 }
