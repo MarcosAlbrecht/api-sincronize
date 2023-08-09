@@ -210,8 +210,14 @@ var io = require('socket.io')(http);
         // const mensagemBuffer = Buffer.from(mensagemBytes);
 
         // console.log('resultado de buffer',mensagemBuffer);
-
-        netClient.write('02 20 00 04 EB B4 9A 5C A2 E8 C7 BC 21 EE A1 16 A6 76 7E 1D 02 3E 59 9F 68 6F 91 94 3F DD 71 EC 6A 48 66 84 03');
+        const autenticar = '02 20 00 04 EB B4 9A 5C A2 E8 C7 BC 21 EE A1 16 A6 76 7E 1D 02 3E 59 9F 68 6F 91 94 3F DD 71 EC 6A 48 66 84 03'
+        const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
+      
+        // Convertendo os bytes da mensagem em um Buffer
+        const mensagemBuffer = Buffer.from(mensagemBytes);
+        
+        netClient.write(mensagemBuffer)
+        netClient.write('');
 
         // return
 
