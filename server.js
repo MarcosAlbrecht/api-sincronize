@@ -494,7 +494,9 @@ function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
     const publicKey = new NodeRSA();
 
     const s_BinModulus = MIMEBase64Decode(s_Modulus);
+    console.log('s_BinModulus', s_BinModulus)
     const s_BinExponent = MIMEBase64Decode(s_Exponent);
+    console.log('s_BinExponent', s_BinExponent)
 
     publicKey.importKey(
       {
