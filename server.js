@@ -230,9 +230,9 @@ var io = require('socket.io')(http);
         //const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
       
         // Convertendo os bytes da mensagem em um Buffer
-        const mensagemBuffer = Buffer.from(mensagemBytes);
+        const mensagemBuffer = Buffer.from(_rPacoteHex);
         
-        //netClient.write(mensagemBuffer)
+        netClient.write(_rPacoteHex)
         
 
         // return
