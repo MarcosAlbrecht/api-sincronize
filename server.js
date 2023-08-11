@@ -222,14 +222,12 @@ var io = require('socket.io')(http);
         // const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
         console.log('resultado de convertToHex',_rPacoteHex);
 
-        
-
-        const mensagemBuffer = Buffer.from(_rPacoteHex);
+        const mensagemBuffer = Buffer.from(byteArray);
         
         netClient.write(mensagemBuffer)
-        console.log('resultado de buffer', mensagemBuffer)
-        
-       // return
+        console.log('resutlado do mensagemBuffer: ', mensagemBuffer)
+
+        // return
 
       }
       
