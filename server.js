@@ -169,32 +169,40 @@ var io = require('socket.io')(http);
       if (data.toString().includes("01+RA+000+")) {
         const clienteCorrespondente = Object.values(clientesConectados).find(cliente => cliente.netClient === netClient);
 
-        // const inputString = data.toString();
-        // const regex = /01\+RA\+000\+(.*?)\]/;
-        // const match = regex.exec(inputString);
+        const inputString = data.toString();
+        const regex = /01\+RA\+000\+(.*?)\]/;
+        const match = regex.exec(inputString);
 
-        // console.log('recebeu token adv R2: ',match[1])
+        console.log('recebeu token adv R2: ',match[1])
         // //clienteCorrespondente.token_advr2 = match[1]
         // //clientesConectados[clienteCorrespondente.id] = clienteCorrespondente;
-        // const rPos = inputString.indexOf(']');
+        const rPos = inputString.indexOf(']');
         // //const _gModulus = inputString.substring(11, rPos);
-        // const _gModulus = match[1]
+        //deve ser o token recebido na resposta do relogio
+        const _gModulus = match[1]
 
-        // const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
+        const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
-        // const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+        //deve ser algo como AQAB
+        const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+        console.log('_gExpoent: ',_gExpoent)
 
-        // console.log('_gExpoent: ',_gExpoent)
+        //Deve gerar um token tipo 'MzQxMDQxMzczMjE1NTUzNw=='
+        const _gKeyAES = generateKeyAES(16);
+        console.log('_gKeyAES: ',_gKeyAES)
 
-        // const _gKeyAES = generateKeyAES(16);
+        const _gUsuario = 'teste fabrica';
+        const _gSenha = '111111';
 
-        // const _gUsuario = 'teste fabrica';
-        // const _gSenha = '111111';
+        //deve ficar tipo assim '1]teste fabrica]111111]MzQxMDQxMzczMjE1NTUzNw=='
+        const _rDados = `${1}]${_gUsuario}]${_gSenha}]${MIMEBase64Encode(_gKeyAES)}`;
+        console.log('_rDados: ',_rDados)
 
-        // const _rDados = `${1}]${_gUsuario}]${_gSenha}]${MIMEBase64Encode(_gKeyAES)}`;
+        //deve gerar um token
+        const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); 
+        console.log('_rMensagem: ',_rMensagem)
 
-        // const _rMensagem = EncryptRSA(_gModulus, _gExpoent, _rDados); 
-
+        //apartir daqui, monta o pacote para reenviar
         // const finalOutput = `01+EA+00+${_rMensagem}`;
         // console.log('Final Output: ', finalOutput);
 
@@ -211,14 +219,14 @@ var io = require('socket.io')(http);
         // const mensagemBuffer = Buffer.from(mensagemBytes);
 
         // console.log('resultado de buffer',mensagemBuffer);
-        const autenticar = '02 20 00 04 EB B4 9A 5C A2 E8 C7 BC 21 EE A1 16 A6 76 7E 1D 02 3E 59 9F 68 6F 91 94 3F DD 71 EC 6A 48 66 84 03'
-        const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
+        //const autenticar = '02 20 00 04 EB B4 9A 5C A2 E8 C7 BC 21 EE A1 16 A6 76 7E 1D 02 3E 59 9F 68 6F 91 94 3F DD 71 EC 6A 48 66 84 03'
+        //const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
       
         // Convertendo os bytes da mensagem em um Buffer
         const mensagemBuffer = Buffer.from(mensagemBytes);
         
         netClient.write(mensagemBuffer)
-        netClient.write('');
+        
 
         // return
 
