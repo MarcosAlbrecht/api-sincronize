@@ -203,8 +203,8 @@ var io = require('socket.io')(http);
         console.log('_rMensagem: ',_rMensagem)
 
         //apartir daqui, monta o pacote para reenviar
-        //const finalOutput = `01+EA+00+${_rMensagem}`;
-        const finalOutput = '01+EA+00+Q5ZpAXTlGgS+fwKsDvAZAdv0c9JN9w/S51/vZtmhSTMAsU9zwCc8yovS452+Y3CE7grt8ahipRHqGclPT8/EToxk1JxWkAehTHvs/6lslVsesgAHPOFM7QlRfsziQ1X6UDIB3rGlj5yxwO0ig4aDjlTdf8trQu064mD+CaMQvgQ='
+        const finalOutput = `01+EA+00+${_rMensagem}`;
+        //const finalOutput = '01+EA+00+Q5ZpAXTlGgS+fwKsDvAZAdv0c9JN9w/S51/vZtmhSTMAsU9zwCc8yovS452+Y3CE7grt8ahipRHqGclPT8/EToxk1JxWkAehTHvs/6lslVsesgAHPOFM7QlRfsziQ1X6UDIB3rGlj5yxwO0ig4aDjlTdf8trQu064mD+CaMQvgQ='
         console.log('Final Output: ', finalOutput);
 
         const byteArray = stringToBytes(finalOutput);
