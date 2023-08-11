@@ -481,24 +481,33 @@ function MIMEBase64Decode(S) {
 
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
   try {
+    // const publicKey = new NodeRSA();
+
+    // const s_BinModulus = MIMEBase64Decode(s_Modulus);
+    // console.log('s_BinModulus', s_BinModulus)
+    // const s_BinExponent = '#1#0#1'//MIMEBase64Decode(s_Exponent);
+    // console.log('s_BinExponent', s_BinExponent)
+
+    // publicKey.importKey(
+    //   {
+    //     n: Buffer.from(s_BinModulus, 'binary'),
+    //     e: Buffer.from(s_BinExponent, 'binary')
+    //   },
+    //   'components-public'
+    // );
+
+    // const encryptedData = publicKey.encrypt(s_Plain, 'base64');
+
+    // return encryptedData;
     const publicKey = new NodeRSA();
+    
+    const modulusBuffer = Buffer.from(s_Modulus, 'base64');
+    const exponentBuffer = Buffer.from(s_Exponent, 'base64');
+    
+    publicKey.importKey({ n: modulusBuffer, e: exponentBuffer }, 'components-public');
 
-    const s_BinModulus = MIMEBase64Decode(s_Modulus);
-    console.log('s_BinModulus', s_BinModulus)
-    const s_BinExponent = '#1#0#1'//MIMEBase64Decode(s_Exponent);
-    console.log('s_BinExponent', s_BinExponent)
-
-    publicKey.importKey(
-      {
-        n: Buffer.from(s_BinModulus, 'binary'),
-        e: Buffer.from(s_BinExponent, 'binary')
-      },
-      'components-public'
-    );
-
-    const encryptedData = publicKey.encrypt(s_Plain, 'base64');
-
-    return encryptedData;
+    const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
+    return encryptedBuffer;
   } catch (error) {
     console.error(error.message);
     return '';
