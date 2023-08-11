@@ -180,8 +180,8 @@ var io = require('socket.io')(http);
         const rPos = inputString.indexOf(']');
         // //const _gModulus = inputString.substring(11, rPos);
         //deve ser o token recebido na resposta do relogio
-        //const _gModulus = match[1]
-        const _gModulus = 'uhwDb5C3onzxPfqXdyB4tvQKMX6NcG8GrOofmAIY467VNvH46A4R1lM52gePdlChWv4/dPLhfjxp73FbOAHIcv+1agH4xEOlXcYOlM+sFOB5posCIgW0atBuU+xHTJ6A6f6XiS6JTd8GXuOVirf/JFYCd1WHVm2TtxtRjkI5qv0='
+        const _gModulus = match[1]
+        //const _gModulus = 'uhwDb5C3onzxPfqXdyB4tvQKMX6NcG8GrOofmAIY467VNvH46A4R1lM52gePdlChWv4/dPLhfjxp73FbOAHIcv+1agH4xEOlXcYOlM+sFOB5posCIgW0atBuU+xHTJ6A6f6XiS6JTd8GXuOVirf/JFYCd1WHVm2TtxtRjkI5qv0='
         const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
         //deve ser algo como AQAB
@@ -189,8 +189,8 @@ var io = require('socket.io')(http);
         console.log('_gExpoent: ',_gExpoent)
 
         //Deve gerar um numero tipo '1231234223644314' com 16 caracteres
-        //const _gKeyAES = generateKeyAES(16);
-        const _gKeyAES = '8357571224553464'
+        const _gKeyAES = generateKeyAES(16);
+        //const _gKeyAES = '7388581784105230'
         console.log('_gKeyAES: ',_gKeyAES)
 
         const _gUsuario = 'teste fabrica';
@@ -222,22 +222,11 @@ var io = require('socket.io')(http);
         // const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
         console.log('resultado de convertToHex',_rPacoteHex);
 
-        // const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
-      
-        // // Convertendo os bytes da mensagem em um Buffer
-        // const mensagemBuffer = Buffer.from(mensagemBytes);
-
-        // console.log('resultado de buffer',mensagemBuffer);
-        //const autenticar = '02 20 00 04 EB B4 9A 5C A2 E8 C7 BC 21 EE A1 16 A6 76 7E 1D 02 3E 59 9F 68 6F 91 94 3F DD 71 EC 6A 48 66 84 03'
-        //const mensagemBytes = autenticar.split(' ').map(hex => parseInt(hex, 16));
-      
-        // Convertendo os bytes da mensagem em um Buffer
         const mensagemBuffer = Buffer.from(byteArray);
         
         netClient.write(mensagemBuffer)
         
-
-        // return
+       // return
 
       }
       
