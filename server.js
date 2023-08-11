@@ -187,7 +187,7 @@ var io = require('socket.io')(http);
         const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
         console.log('_gExpoent: ',_gExpoent)
 
-        //Deve gerar um token tipo 'MzQxMDQxMzczMjE1NTUzNw=='
+        //Deve gerar um numero tipo '1231234223644314' com 16 caracteres
         const _gKeyAES = generateKeyAES(16);
         console.log('_gKeyAES: ',_gKeyAES)
 
@@ -203,15 +203,16 @@ var io = require('socket.io')(http);
         console.log('_rMensagem: ',_rMensagem)
 
         //apartir daqui, monta o pacote para reenviar
-        // const finalOutput = `01+EA+00+${_rMensagem}`;
-        // console.log('Final Output: ', finalOutput);
+        //const finalOutput = `01+EA+00+${_rMensagem}`;
+        const finalOutput = '01+EA+00+Q5ZpAXTlGgS+fwKsDvAZAdv0c9JN9w/S51/vZtmhSTMAsU9zwCc8yovS452+Y3CE7grt8ahipRHqGclPT8/EToxk1JxWkAehTHvs/6lslVsesgAHPOFM7QlRfsziQ1X6UDIB3rGlj5yxwO0ig4aDjlTdf8trQu064mD+CaMQvgQ='
+        console.log('Final Output: ', finalOutput);
 
-        // const byteArray = stringToBytes(finalOutput);
-        // console.log('resultado de stringToBytes',byteArray);
+        const byteArray = stringToBytes(finalOutput);
+        console.log('resultado de stringToBytes',byteArray);
 
-        // const _rPacoteHex = convertToHex(byteArray);
+        const _rPacoteHex = convertToHex(byteArray);
         // const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
-        // console.log('resultado de convertToHex',_rPacoteHex);
+        console.log('resultado de convertToHex',_rPacoteHex);
 
         // const mensagemBytes = _rPacoteHex.split(' ').map(hex => parseInt(hex, 16));
       
@@ -225,7 +226,7 @@ var io = require('socket.io')(http);
         // Convertendo os bytes da mensagem em um Buffer
         const mensagemBuffer = Buffer.from(mensagemBytes);
         
-        netClient.write(mensagemBuffer)
+        //netClient.write(mensagemBuffer)
         
 
         // return
@@ -478,44 +479,41 @@ function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
 
 function stringToBytes(pPackage) {
   const CONST_START_BYTE = 0x02;
-  const CONST_END_BYTE = 0x03;
-
-  function nextByte(byteArray) {
-    byteArray.push(0);
-  }
-
-  const packageBytes = [];
-  let _rChecksum = 0;
-
-  packageBytes.push(CONST_START_BYTE);
-
-  const packageLength = pPackage.length;
-  nextByte(packageBytes);
-  packageBytes.push(packageLength & 0xFF);
-  nextByte(packageBytes);
-  packageBytes.push((packageLength >> 8) & 0xFF);
-
-  for (let i = 0; i < packageLength; i++) {
-    packageBytes.push(pPackage.charCodeAt(i));
-    nextByte(packageBytes);
-  }
-
-  for (let i = 0; i <= packageLength; i++) {
-    _rChecksum ^= pPackage.charCodeAt(i);
-  }
-  _rChecksum ^= packageLength & 0xFF;
-  _rChecksum ^= (packageLength >> 8) & 0xFF;
-  packageBytes.push(_rChecksum);
-
-  nextByte(packageBytes);
-  packageBytes.push(CONST_END_BYTE);
-
-  return new Uint8Array(packageBytes);
-}
-
-function convertToHex(byteArray) {
-  return byteArray.reduce((hexString, byte) => {
-    const byteHex = byte.toString(16).padStart(2, '0');
-    return hexString + byteHex + ' ';
-  }, '');
+    const CONST_END_BYTE = 0x03;
+    let _rChecksum = 0;
+    let idx = 0;
+    let byteArray = new Uint8Array(1);
+    
+    function nextByte() {
+        const newByteArray = new Uint8Array(byteArray.length + 1);
+        newByteArray.set(byteArray, 0);
+        byteArray = newByteArray;
+        idx++;
+    }
+    
+    byteArray[idx] = CONST_START_BYTE;
+    nextByte();
+    
+    const packageLength = pPackage.length;
+    byteArray[idx] = packageLength & 0xFF;
+    nextByte();
+    byteArray[idx] = (packageLength >> 8) & 0xFF;
+    nextByte();
+    
+    for (let i = 0; i < packageLength; i++) {
+        byteArray[idx] = pPackage.charCodeAt(i);
+        nextByte();
+    }
+    
+    for (let i = 0; i <= packageLength; i++) {
+        _rChecksum ^= pPackage.charCodeAt(i);
+    }
+    _rChecksum ^= packageLength & 0xFF;
+    _rChecksum ^= (packageLength >> 8) & 0xFF;
+    byteArray[idx] = _rChecksum;
+    nextByte();
+    
+    byteArray[idx] = CONST_END_BYTE;
+    
+    return Array.from(byteArray);
 }
