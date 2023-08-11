@@ -210,7 +210,13 @@ var io = require('socket.io')(http);
         const byteArray = stringToBytes(finalOutput);
         console.log('resultado de stringToBytes',byteArray);
 
-        const _rPacoteHex = convertToHex(byteArray);
+        let _rPacoteHex = '';
+
+        for (let i = 0; i < byteArray.length; i++) {
+          _rPacoteHex += convertToHex([byteArray[i]]) + ' ';
+        }
+
+        //const _rPacoteHex = convertToHex(byteArray);
         // const _rHexa = `02 B5 00 30 31 2B 45 41 2B 30 30 2B ${_rPacoteHex} 03`
         console.log('resultado de convertToHex',_rPacoteHex);
 
@@ -517,3 +523,8 @@ function stringToBytes(pPackage) {
     
     return Array.from(byteArray);
 }
+
+function convertToHex(byteArray) {
+  return byteArray.map(byte => byte.toString(16).toUpperCase().padStart(2, '0')).join(' ');
+}
+
