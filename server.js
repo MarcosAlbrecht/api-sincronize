@@ -5,6 +5,7 @@ const net = require('net');
 const { v4: uuidv4 } = require('uuid')
 const NodeRSA = require('node-rsa');
 const forge = require('node-forge');
+const base64 = require('base64-js');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -470,18 +471,54 @@ function MIMEBase64Encode(inputString) {
   return encodedData + padding;
 }
 
-function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
-  const publicKey = new NodeRSA();
-  publicKey.importKey(
-    {
-      n: Buffer.from(s_Modulus, 'base64'), // Decoded from base64
-      e: Buffer.from(s_Exponent, 'base64') // Decoded from base64
-    },
-    'components-public'
-  );
+// function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
+//   const publicKey = new NodeRSA();
+//   publicKey.importKey(
+//     {
+//       n: Buffer.from(s_Modulus, 'base64'), // Decoded from base64
+//       e: Buffer.from(s_Exponent, 'base64') // Decoded from base64
+//     },
+//     'components-public'
+//   );
 
-  const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
-  return encryptedBuffer;
+//   const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
+//   return encryptedBuffer;
+// }
+function MIMEBase64Decode(S) {
+  const decoded = base64.toByteArray(S);
+  return Buffer.from(decoded).toString('binary');
+}
+
+function RSAEncryptStr(EncryptionType, PublicKey, Plain) {
+  const cipherMessageBufSize = PublicKey.getKeySize() / 8;
+  const encryptedBuffer = Buffer.alloc(cipherMessageBufSize);
+
+  const encryptedSize = PublicKey.encrypt(Plain, encryptedBuffer, EncryptionType);
+
+  return encryptedBuffer.slice(0, encryptedSize).toString('binary');
+}
+
+function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
+  try {
+    const publicKey = new NodeRSA();
+    
+    const s_BinModulus = MIMEBase64Decode(s_Modulus);
+    const s_BinExponent = MIMEBase64Decode(s_Exponent);
+
+    publicKey.importKey({
+      n: Buffer.from(s_BinModulus, 'binary'),
+      e: Buffer.from(s_BinExponent, 'binary')
+    }, 'components-public');
+
+    const encryptedData = RSAEncryptStr('pkcs1', publicKey, s_Plain);
+
+    const resultBase64 = base64.fromByteArray(Buffer.from(encryptedData, 'binary'));
+
+    return resultBase64;
+  } catch (error) {
+    console.error(error.message);
+    return '';
+  }
 }
 
 function stringToBytes(pPackage) {
