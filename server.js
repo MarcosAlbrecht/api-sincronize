@@ -179,8 +179,8 @@ var io = require('socket.io')(http);
         const rPos = inputString.indexOf(']');
         // //const _gModulus = inputString.substring(11, rPos);
         //deve ser o token recebido na resposta do relogio
-        const _gModulus = match[1]
-
+        //const _gModulus = match[1]
+        const _gModulus = 'uhwDb5C3onzxPfqXdyB4tvQKMX6NcG8GrOofmAIY467VNvH46A4R1lM52gePdlChWv4/dPLhfjxp73FbOAHIcv+1agH4xEOlXcYOlM+sFOB5posCIgW0atBuU+xHTJ6A6f6XiS6JTd8GXuOVirf/JFYCd1WHVm2TtxtRjkI5qv0='
         const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
         //deve ser algo como AQAB
@@ -188,7 +188,8 @@ var io = require('socket.io')(http);
         console.log('_gExpoent: ',_gExpoent)
 
         //Deve gerar um numero tipo '1231234223644314' com 16 caracteres
-        const _gKeyAES = generateKeyAES(16);
+        //const _gKeyAES = generateKeyAES(16);
+        const _gKeyAES = '8357571224553464'
         console.log('_gKeyAES: ',_gKeyAES)
 
         const _gUsuario = 'teste fabrica';
@@ -204,7 +205,7 @@ var io = require('socket.io')(http);
 
         //apartir daqui, monta o pacote para reenviar
         const finalOutput = `01+EA+00+${_rMensagem}`;
-        //const finalOutput = '01+EA+00+Q5ZpAXTlGgS+fwKsDvAZAdv0c9JN9w/S51/vZtmhSTMAsU9zwCc8yovS452+Y3CE7grt8ahipRHqGclPT8/EToxk1JxWkAehTHvs/6lslVsesgAHPOFM7QlRfsziQ1X6UDIB3rGlj5yxwO0ig4aDjlTdf8trQu064mD+CaMQvgQ='
+        //const finalOutput = '01+EA+00+SBu0vudtga0IlQPBUu8SwkvcpUbdn3HhWIAaQX4j8H3fis19xa+S3n7iRwRjApXoWUYQNeebl9WXmmuT2knK6n1uDAVo6DlNYpv/YT2xPXGvQd80Hfez604XIf5dnh6NthyQONFcmulsR2tXrLSanJPGcOzxxlzYx+aFYNTj8sM='
         console.log('Final Output: ', finalOutput);
 
         const byteArray = stringToBytes(finalOutput);
