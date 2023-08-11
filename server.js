@@ -489,32 +489,24 @@ function MIMEBase64Decode(S) {
   return Buffer.from(decoded).toString('binary');
 }
 
-function RSAEncryptStr(EncryptionType, PublicKey, Plain) {
-  const cipherMessageBufSize = PublicKey.getKeySize() / 8;
-  const encryptedBuffer = Buffer.alloc(cipherMessageBufSize);
-
-  const encryptedSize = PublicKey.encrypt(Plain, encryptedBuffer, EncryptionType);
-
-  return encryptedBuffer.slice(0, encryptedSize).toString('binary');
-}
-
 function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
   try {
     const publicKey = new NodeRSA();
-    
+
     const s_BinModulus = MIMEBase64Decode(s_Modulus);
     const s_BinExponent = MIMEBase64Decode(s_Exponent);
 
-    publicKey.importKey({
-      n: Buffer.from(s_BinModulus, 'binary'),
-      e: Buffer.from(s_BinExponent, 'binary')
-    }, 'components-public');
+    publicKey.importKey(
+      {
+        n: Buffer.from(s_BinModulus, 'binary'),
+        e: Buffer.from(s_BinExponent, 'binary')
+      },
+      'components-public'
+    );
 
-    const encryptedData = RSAEncryptStr('pkcs1', publicKey, s_Plain);
+    const encryptedData = publicKey.encrypt(s_Plain, 'base64');
 
-    const resultBase64 = base64.fromByteArray(Buffer.from(encryptedData, 'binary'));
-
-    return resultBase64;
+    return encryptedData;
   } catch (error) {
     console.error(error.message);
     return '';
