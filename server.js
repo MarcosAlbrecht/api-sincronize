@@ -499,15 +499,31 @@ function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
     // const encryptedData = publicKey.encrypt(s_Plain, 'base64');
 
     // return encryptedData;
-    const publicKey = new NodeRSA();
+    // const publicKey = new NodeRSA();
     
-    const modulusBuffer = Buffer.from(s_Modulus, 'base64');
-    const exponentBuffer = Buffer.from(s_Exponent, 'base64');
+    // const modulusBuffer = Buffer.from(s_Modulus, 'base64');
+    // const exponentBuffer = Buffer.from(s_Exponent, 'base64');
     
-    publicKey.importKey({ n: modulusBuffer, e: exponentBuffer }, 'components-public');
+    // publicKey.importKey({ n: modulusBuffer, e: exponentBuffer }, 'components-public');
 
-    const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
-    return encryptedBuffer;
+    // const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
+    // return encryptedBuffer;
+
+    
+      const keyData = {
+          n: Buffer.from(keyModulus, 'base64'),
+          e: Buffer.from(keyExponent, 'base64')
+      };
+
+      const key = new NodeRSA();
+      key.importKey(keyData, 'components-public');
+
+      const cipherData = key.encrypt(data, 'base64');
+      return cipherData;
+  } catch (error) {
+      console.error('Error:', error);
+      return null;
+  }
   } catch (error) {
     console.error(error.message);
     return '';
