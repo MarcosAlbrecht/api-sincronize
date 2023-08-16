@@ -185,7 +185,7 @@ var io = require('socket.io')(http);
         const _rPacoteString = inputString.substring(rPos + 1, rPos + 5);    
 
         //deve ser algo como AQAB
-        const _gExpoent = _rPacoteString.replace(/\r?\n/g, '');
+        const _gExpoent = _rPacoteString;//.replace(/\r?\n/g, '');
         console.log('_gExpoent: ',_gExpoent)
 
         //Deve gerar um numero tipo '1231234223644314' com 16 caracteres
@@ -205,7 +205,7 @@ var io = require('socket.io')(http);
         console.log('_rMensagem: ',_rMensagem)
 
         //apartir daqui, monta o pacote para reenviar
-        const finalOutput = `01+EA+00+${_rMensagem}`;
+        const finalOutput = `03+EA+00+${_rMensagem}`;
         //const finalOutput = '01+EA+00+SBu0vudtga0IlQPBUu8SwkvcpUbdn3HhWIAaQX4j8H3fis19xa+S3n7iRwRjApXoWUYQNeebl9WXmmuT2knK6n1uDAVo6DlNYpv/YT2xPXGvQd80Hfez604XIf5dnh6NthyQONFcmulsR2tXrLSanJPGcOzxxlzYx+aFYNTj8sM='
         console.log('Final Output: ', finalOutput);
 
@@ -520,10 +520,7 @@ function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
 
       const cipherData = key.encrypt(data, 'base64');
       return cipherData;
-  } catch (error) {
-      console.error('Error:', error);
-      return null;
-  }
+  
   } catch (error) {
     console.error(error.message);
     return '';
