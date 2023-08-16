@@ -479,52 +479,28 @@ function MIMEBase64Decode(S) {
   return Buffer.from(decoded).toString('binary');
 }
 
-function EncryptRSA(s_Modulus, s_Exponent, s_Plain) {
+function EncryptRSA(keyModulus, keyExponent, data) {
   try {
-    // const publicKey = new NodeRSA();
+    const btMod = base64.parse(keyModulus).toString(Utf8);
+    const btExp = base64.parse(keyExponent).toString(Utf8);
 
-    // const s_BinModulus = MIMEBase64Decode(s_Modulus);
-    // console.log('s_BinModulus', s_BinModulus)
-    // const s_BinExponent = '#1#0#1'//MIMEBase64Decode(s_Exponent);
-    // console.log('s_BinExponent', s_BinExponent)
+    const modulus = new BigInteger(btMod, 16);
+    const pubExp = new BigInteger(btExp, 16);
 
-    // publicKey.importKey(
-    //   {
-    //     n: Buffer.from(s_BinModulus, 'binary'),
-    //     e: Buffer.from(s_BinExponent, 'binary')
-    //   },
-    //   'components-public'
-    // );
+    const key = crypto.createPublicKey({
+        key: Buffer.concat([Buffer.from('ssh-rsa'), modulus.toBuffer(), pubExp.toBuffer()]),
+        format: 'ssh'
+    });
 
-    // const encryptedData = publicKey.encrypt(s_Plain, 'base64');
+    const cipher = crypto.publicEncrypt({ key: key, padding: crypto.constants.RSA_PKCS1_PADDING }, Buffer.from(data));
 
-    // return encryptedData;
-    // const publicKey = new NodeRSA();
-    
-    // const modulusBuffer = Buffer.from(s_Modulus, 'base64');
-    // const exponentBuffer = Buffer.from(s_Exponent, 'base64');
-    
-    // publicKey.importKey({ n: modulusBuffer, e: exponentBuffer }, 'components-public');
+    const tmp = cipher.toString('base64');
 
-    // const encryptedBuffer = publicKey.encrypt(s_Plain, 'base64');
-    // return encryptedBuffer;
-
-    
-      const keyData = {
-          n: Buffer.from(keyModulus, 'base64'),
-          e: Buffer.from(keyExponent, 'base64')
-      };
-
-      const key = new NodeRSA();
-      key.importKey(keyData, 'components-public');
-
-      const cipherData = key.encrypt(data, 'base64');
-      return cipherData;
-  
-  } catch (error) {
+    return tmp;
+} catch (error) {
     console.error(error.message);
     return '';
-  }
+}
 }
 
 function stringToBytes(pPackage) {
