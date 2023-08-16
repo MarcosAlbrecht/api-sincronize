@@ -13,6 +13,8 @@
   "dependencies": {
     "base64-arraybuffer": "^1.0.2",
     "base64-js": "^1.5.1",
+    "big-integer": "^1.6.51",
+    "crypto-js": "^4.1.1",
     "express": "^4.18.2",
     "hexy": "^0.3.4",
     "http": "^0.0.1-security",

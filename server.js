@@ -6,6 +6,10 @@ const { v4: uuidv4 } = require('uuid')
 const NodeRSA = require('node-rsa');
 const forge = require('node-forge');
 const base64 = require('base64-js');
+const crypto = require('crypto');
+const BigInteger = require('big-integer');
+const Base64 = require('crypto-js/enc-base64');
+const Utf8 = require('crypto-js/enc-utf8');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -481,8 +485,8 @@ function MIMEBase64Decode(S) {
 
 function EncryptRSA(keyModulus, keyExponent, data) {
   try {
-    const btMod = base64.parse(keyModulus).toString(Utf8);
-    const btExp = base64.parse(keyExponent).toString(Utf8);
+    const btMod = Base64.parse(keyModulus).toString(Utf8);
+    const btExp = Base64.parse(keyExponent).toString(Utf8);
 
     const modulus = new BigInteger(btMod, 16);
     const pubExp = new BigInteger(btExp, 16);
